@@ -40,8 +40,16 @@ app.get("/", async (req, res) => {
 app.get("/edit/:id", async (req, res) => {
   try {
     const book = await getBookById(req.params.id);
-    if (!book) {
-      return res.send("Book not found");
+    if (title_changed) {
+      try {
+        const result = await axios.get(
+          `https://openlibrary.org/search.json?title=${title}`,
+          { timeout: 5000 },
+        );
+        cover_id = result.data.docs[0]?.cover_i || null;
+      } catch (err) {
+        console.error("Could not fetch cover:", err);
+      }
     }
     res.render("edit.ejs", { book: book });
   } catch (err) {
