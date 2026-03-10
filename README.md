@@ -15,7 +15,7 @@ The app is built with **Node.js**, **Express**, **PostgreSQL**, **EJS templates*
 ### How it works
 
 1. **Adding a Book** – You enter the title and date read. The app fetches the official author and cover image automatically.  
-2. **Editing a Book** – Update title, author, rating, notes, or date read. If the title changes, the cover is updated from the API.  
+2. **Editing a Book** – Update title, author, rating, notes, or date read. 
 3. **Deleting a Book** – Remove a book from your collection with one click.  
 4. **Viewing Books** – All books are displayed with covers, titles, authors, date read, ratings, and notes.
 
