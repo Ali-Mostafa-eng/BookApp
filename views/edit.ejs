@@ -23,7 +23,7 @@
     </label><br>
 
     <label>Date Read: 
-      <input type="date" name="date_read" value="<%= book.date_read %>">
+      <input type="date" name="date_read" value="<%= book.date_read ? book.date_read.toISOString().split('T')[0] : '' %>">
     </label><br>
 
     <label>Rating: 

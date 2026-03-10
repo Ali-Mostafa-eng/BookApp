@@ -71,31 +71,18 @@ app.post("/edit/:id", async (req, res) => {
   const id = req.params.id;
   const title = req.body["title"];
   const author = req.body["author"];
-  const rating = req.body["rating"];
+  const rating = req.body["rating"] ? Number(req.body["rating"]) : null;
   const notes = req.body["notes"];
   const date_read = req.body["date_read"];
-  const currentBook = await getBookById(id);
-  const title_changed = title !== currentBook.title;
-  let cover_id = currentBook.cover_id;
   try {
-    if (title_changed) {
-      try {
-        const result = await axios.get(
-          `https://openlibrary.org/search.json?title=${title}`,
-          { timeout: 5000 },
-        );
-        cover_id = result.data.docs[0]?.cover_i || null;
-      } catch (err) {
-        console.error("Could not fetch cover:", err);
-      }
-    }
-    const result = await db.query(
-      "UPDATE books SET title=$1, author=$2, rating=$3, notes=$4, date_read=$5, cover_id=$6 WHERE id=$7",
-      [title, author, rating, notes, date_read, cover_id, id],
+    await db.query(
+      "UPDATE books SET title=$1, author=$2, rating=$3, notes=$4, date_read=$5 WHERE id=$6",
+      [title, author, rating, notes, date_read, id],
     );
     res.redirect("/");
   } catch (err) {
     console.error("Error updating book:", err);
+    res.status(500).send("Database error");
   }
 });
 app.get("/delete/:id", async (req, res) => {
