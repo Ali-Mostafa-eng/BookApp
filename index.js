@@ -40,18 +40,10 @@ app.get("/", async (req, res) => {
 app.get("/edit/:id", async (req, res) => {
   try {
     const book = await getBookById(req.params.id);
-    if (title_changed) {
-      try {
-        const result = await axios.get(
-          `https://openlibrary.org/search.json?title=${title}`,
-          { timeout: 5000 },
-        );
-        cover_id = result.data.docs[0]?.cover_i || null;
-      } catch (err) {
-        console.error("Could not fetch cover:", err);
-      }
+    if (!book) {
+      return res.send("Book not found");
     }
-    res.render("edit.ejs", { book: book });
+    res.render("index.ejs", { book: book });
   } catch (err) {
     console.error("Error fetching book:", err);
   }
@@ -87,10 +79,15 @@ app.post("/edit/:id", async (req, res) => {
   let cover_id = currentBook.cover_id;
   try {
     if (title_changed) {
-      const result = await axios.get(
-        `https://openlibrary.org/search.json?title=${title}`,
-      );
-      cover_id = result.data.docs[0]?.cover_i || null;
+      try {
+        const result = await axios.get(
+          `https://openlibrary.org/search.json?title=${title}`,
+          { timeout: 5000 },
+        );
+        cover_id = result.data.docs[0]?.cover_i || null;
+      } catch (err) {
+        console.error("Could not fetch cover:", err);
+      }
     }
     const result = await db.query(
       "UPDATE books SET title=$1, author=$2, rating=$3, notes=$4, date_read=$5, cover_id=$6 WHERE id=$7",
