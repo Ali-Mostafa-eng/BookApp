@@ -43,7 +43,7 @@ app.get("/edit/:id", async (req, res) => {
     if (!book) {
       return res.send("Book not found");
     }
-    res.render("index.ejs", { book: book });
+    res.render("edit.ejs", { book: book });
   } catch (err) {
     console.error("Error fetching book:", err);
   }
