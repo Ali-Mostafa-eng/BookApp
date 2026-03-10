@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Books App</title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <h1>My Books List</h1>
+    <h2>Add a New Book</h2>
+    <form action="/add" method="POST">
+      <label>Title: <input type="text" name="title" required /></label><br />
+      <label>Author: <input type="text" name="author" required /></label><br />
+      <label>Date Read: <input type="date" name="date_read" required /></label
+      ><br />
+      <button type="submit">Add Book</button>
+    </form>
+    <h2>Books</h2>
+<ul>
+  <% books.forEach(book => { %>
+    <li>
+      <% if (book.cover_id) { %>
+        <img src="https://covers.openlibrary.org/b/id/<%= book.cover_id %>-M.jpg" alt="cover" width="50">
+      <% } %>
+      <strong><%= book.title %></strong> by <%= book.author %> - <%= book.date_read %>  
+      Rating: <%= book.rating || 'N/A' %>  
+      Notes: <%= book.notes || '' %>
+<div class="book-actions">
+  <a href="/edit/<%= book.id %>" class="edit-btn">Edit</a>
+  <a href="/delete/<%= book.id %>" class="delete-btn" onclick="return confirm('Are you sure?')">Delete</a>
+</div>
+    </li>
+  <% }) %>
+</ul>
+  </body>
+</html>

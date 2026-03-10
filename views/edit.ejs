@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Book</title>
+  <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+  <h1>Edit Book</h1>
+
+  <% if (book.cover_id) { %>
+    <img src="https://covers.openlibrary.org/b/id/<%= book.cover_id %>-M.jpg" alt="cover" width="100">
+  <% } %>
+
+  <form action="/edit/<%= book.id %>" method="POST">
+    <label>Title: 
+      <input type="text" name="title" value="<%= book.title %>" required>
+    </label><br>
+
+    <label>Author: 
+      <input type="text" name="author" value="<%= book.author %>" required>
+    </label><br>
+
+    <label>Date Read: 
+      <input type="date" name="date_read" value="<%= book.date_read %>">
+    </label><br>
+
+    <label>Rating: 
+      <input type="number" name="rating" min="1" max="5" value="<%= book.rating %>">
+    </label><br>
+
+    <label>Notes: 
+      <textarea name="notes"><%= book.notes %></textarea>
+    </label><br>
+
+    <button type="submit">Save Changes</button>
+  </form>
+  <p><a href="/">Back to Book List</a></p>
+</body>
+</html>
